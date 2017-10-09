@@ -1,0 +1,12 @@
+group 'br.com.sala-reserva'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(path:':sala-reserva-infra')
+    compile project(path:':sala-reserva-domain')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

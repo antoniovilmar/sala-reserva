@@ -1,0 +1,6 @@
+rootProject.name = 'sala-reserva'
+include 'sala-reserva-domain'
+include 'sala-reserva-infra'
+include 'sala-reserva-api'
+include 'sala-reserva-application'
+
