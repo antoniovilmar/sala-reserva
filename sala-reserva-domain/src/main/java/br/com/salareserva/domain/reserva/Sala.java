@@ -1,6 +1,8 @@
 package br.com.salareserva.domain.reserva;
 
+
 public class Sala {
+
     private String id;
 
     public Sala(String id) {
@@ -11,7 +13,7 @@ public class Sala {
         return id;
     }
 
-    protected Reserva reservar(Periodo periodo, String email){
+    protected Reserva reservar(Periodo periodo, String email) {
         return new Reserva(this, periodo, email);
     }
 }

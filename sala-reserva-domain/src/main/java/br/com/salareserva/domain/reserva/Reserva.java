@@ -1,10 +1,12 @@
 package br.com.salareserva.domain.reserva;
 
+import br.com.salareserva.domain.compartilhado.DominioResultante;
+
 public class Reserva {
 
-    private final Sala sala;
-    private final Periodo periodo;
-    private final String email;
+    private Sala sala;
+    private Periodo periodo;
+    private String email;
 
     protected Reserva(Sala sala, Periodo periodo, String email) {
         this.sala = sala;
@@ -22,5 +24,10 @@ public class Reserva {
 
     public String getEmail() {
         return email;
+    }
+
+    public static DominioResultante<Reserva> criar(DominioResultante<Reserva> dominioResultante, Sala sala, Periodo objeto, String email) {
+        return   dominioResultante
+                .construir(() -> sala.reservar(objeto, email));
     }
 }
