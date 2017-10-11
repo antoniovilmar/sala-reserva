@@ -13,7 +13,7 @@ public class Sala {
         return id;
     }
 
-    protected Reserva reservar(Periodo periodo, String email) {
+    public Reserva reservar(Periodo periodo, String email) {
         return new Reserva(this, periodo, email);
     }
 }

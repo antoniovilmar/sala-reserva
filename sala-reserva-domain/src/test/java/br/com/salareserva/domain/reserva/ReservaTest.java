@@ -1,6 +1,5 @@
 package br.com.salareserva.domain.reserva;
 
-import br.com.salareserva.domain.compartilhado.DominioResultante;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,17 +10,17 @@ public class ReservaTest {
 
 
     @Test
-    public void deveCriarReservaDeSala(){
+    public void deveCriarReservaDeSala() {
+
         //Given
         Sala sala = new Sala("40");
         LocalDateTime periodoInicio = LocalDateTime.of(2017, Month.JUNE, 13, 00, 0);
         LocalDateTime periodoFim = LocalDateTime.of(2017, Month.JUNE, 18, 00, 0);
-        Periodo periodo = new Periodo(periodoInicio, periodoFim);
         String email = "mauro_falcatrua@gmail.com";
         //When
         ReservaRepository reservaRepository = ReservaRepositoryMockProvider.existeReservaPorPeriodo(false);
         try {
-            Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodo, email);
+            Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodoInicio, periodoFim, email);
 
             //Then
             Assert.assertEquals(email, reserva.getEmail());
@@ -34,18 +33,17 @@ public class ReservaTest {
     }
 
     @Test
-    public void naoDeveCriarReservaEmHorarioJaReservado(){
+    public void naoDeveCriarReservaEmHorarioJaReservado() {
 
         //Given
         Sala sala = new Sala("40");
         LocalDateTime periodoInicio = LocalDateTime.of(2017, Month.JUNE, 13, 00, 0);
         LocalDateTime periodoFim = LocalDateTime.of(2017, Month.JUNE, 18, 00, 0);
-        Periodo periodo = new Periodo(periodoInicio, periodoFim);
         String email = "mauro_falcatrua@gmail.com";
 
         ReservaRepository reservaRepository = ReservaRepositoryMockProvider.existeReservaPorPeriodo(true);
         try {
-            Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodo, email);
+            Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodoInicio, periodoFim, email);
         } catch (Exception e) {
             Assert.assertEquals("A sala está ocupada neste período", e.getMessage());
         }
@@ -53,35 +51,35 @@ public class ReservaTest {
     }
 
     @Test
-    public void naoDevePermitirAgendamentoEmPeriodoInvalido(){
+    public void naoDevePermitirAgendamentoEmPeriodoInvalido() {
         //Given
         Sala sala = new Sala("40");
         LocalDateTime periodoInicio = LocalDateTime.of(2017, Month.JUNE, 18, 00, 0);
         LocalDateTime periodoFim = LocalDateTime.of(2017, Month.JUNE, 13, 00, 0);
-        Periodo periodo = new Periodo(periodoInicio, periodoFim);
+        //Periodo periodo = new Periodo(periodoInicio, periodoFim);
         String email = "mauro_falcatrua@gmail.com";
 
         ReservaRepository reservaRepository = ReservaRepositoryMockProvider.existeReservaPorPeriodo(false);
 
         try {
-            Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodo, email);
+            Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodoInicio, periodoFim, email);
             Assert.fail("Deveria ter informado que o período é inválido");
         } catch (Exception e) {
-            Assert.assertEquals("Período inválido", e.getMessage());
+            Assert.assertEquals("Periodo : O periodo inicial Ã© maior que o periodo final.", e.getMessage());
         }
     }
 
     @Test
-    public void naoDevePermitirAgendamentoNoPassado(){
+    public void naoDevePermitirAgendamentoNoPassado() {
 
+        Assert.fail("implementar asserts");
         Sala sala = new Sala("40");
-        LocalDateTime periodoInicio = LocalDateTime.of(2017, Month.JUNE, 18, 00, 0);
-        LocalDateTime periodoFim = LocalDateTime.of(2017, Month.JUNE, 13, 00, 0);
-        Periodo periodo = new Periodo(periodoInicio, periodoFim);
+        LocalDateTime periodoInicio = LocalDateTime.of(2017, Month.JUNE, 13, 00, 0);
+        LocalDateTime periodoFim = LocalDateTime.of(2017, Month.JUNE, 18, 00, 0);
         String email = "mauro_falcatrua@gmail.com";
+        ReservaRepository reservaRepository = ReservaRepositoryMockProvider.existeReservaPorPeriodo(false);
 
-        DominioResultante<Reserva> resultante = new DominioResultante<>();
-        Reserva reserva = resultante.Mapear(() -> new Reserva(sala, periodo, email));
+        Reserva reserva = new FabricaReserva(reservaRepository).criar(sala, periodoInicio, periodoFim, email);
         Assert.assertEquals(email, reserva.getEmail());
 
     }

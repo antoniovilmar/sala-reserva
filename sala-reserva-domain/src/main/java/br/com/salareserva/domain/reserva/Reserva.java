@@ -1,17 +1,26 @@
 package br.com.salareserva.domain.reserva;
 
-import br.com.salareserva.domain.compartilhado.DominioResultante;
+import br.com.salareserva.domain.arq.BaseEntity;
+import br.com.salareserva.domain.beanvalidation.PeriodoInicialMaiorPeriodoFinalValidation;
 
-public class Reserva {
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+public class Reserva extends BaseEntity {
 
     private Sala sala;
+    @Valid
+    @NotNull
+    @PeriodoInicialMaiorPeriodoFinalValidation(message = "{periodoDataInicialMaiorPeriodoFinal.message}")
     private Periodo periodo;
+
     private String email;
 
     protected Reserva(Sala sala, Periodo periodo, String email) {
         this.sala = sala;
         this.periodo = periodo;
         this.email = email;
+        this.isValid();
     }
 
     public Sala getSala() {
@@ -26,8 +35,4 @@ public class Reserva {
         return email;
     }
 
-    public static DominioResultante<Reserva> criar(DominioResultante<Reserva> dominioResultante, Sala sala, Periodo objeto, String email) {
-        return   dominioResultante
-                .construir(() -> sala.reservar(objeto, email));
-    }
 }

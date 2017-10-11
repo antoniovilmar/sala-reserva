@@ -1,9 +1,9 @@
 package br.com.salareserva.domain.reserva;
 
-import br.com.salareserva.domain.compartilhado.DominioResultante;
+import br.com.salareserva.domain.arq.DomainBusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 
 
@@ -12,20 +12,18 @@ public class FabricaReserva {
 
     private ReservaRepository repository;
 
-    @Inject
-    FabricaReserva(ReservaRepository reservaRepository){
+    @Autowired
+    FabricaReserva(ReservaRepository reservaRepository) {
         repository = reservaRepository;
     }
-    public Reserva criar(Sala sala, LocalDateTime dataInicio, LocalDateTime dataFim, String email) throws Exception {
 
-        DominioResultante<Periodo> dominioPeriodo = Periodo.criar(dataInicio, dataFim);
+    public Reserva criar(Sala sala, LocalDateTime dataInicio, LocalDateTime dataFim, String email) {
 
-        DominioResultante<Reserva> dominioResultante =  new DominioResultante<Reserva>()
-                .GarantirQue(()-> repository.existeReservaPorPeriodo(sala, dominioPeriodo.getObjeto()), "");
-
-        Reserva.criar(dominioResultante, sala, dominioPeriodo.getObjeto(), email);
-
-
-
+        final Periodo periodo = new Periodo(dataInicio, dataFim);
+        if(this.repository.existeReservaPorPeriodo(sala,periodo)){
+            throw new DomainBusinessException("A sala está ocupada neste período");
+        }
+        return new Reserva(sala, periodo, email);
     }
+
 }

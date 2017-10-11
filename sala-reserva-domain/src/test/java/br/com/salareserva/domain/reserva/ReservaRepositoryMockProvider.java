@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 public class ReservaRepositoryMockProvider {
     public static ReservaRepository existeReservaPorPeriodo(Boolean desiredReturn){
         ReservaRepository reservaRepository = Mockito.mock(ReservaRepository.class);
-        when(reservaRepository.existeReservaPorPeriodo(any(Sala.class), any(Periodo.class))).thenReturn(true);
+        when(reservaRepository.existeReservaPorPeriodo(any(Sala.class), any(Periodo.class))).thenReturn(desiredReturn);
         return reservaRepository;
     }
 }
