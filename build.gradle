@@ -5,16 +5,20 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'eclipse'
 
+    tasks.withType(JavaCompile) {
+        options.encoding = "ISO-8859-1"
+    }
+    
     repositories {
         mavenCentral()
     }
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+
     dependencies {
-        compile 'org.apache.commons:commons-lang3:3.0'
-        compile 'javax.el:javax.el-api:3.0.0'
+        compile('org.apache.commons:commons-lang3:3.0')
+        testCompile('javax.el:javax.el-api:3.0.0')
         testCompile('org.mockito:mockito-core:2.7.22')
     }
-
 }
