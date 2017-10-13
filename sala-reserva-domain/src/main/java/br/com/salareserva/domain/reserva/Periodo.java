@@ -1,6 +1,6 @@
 package br.com.salareserva.domain.reserva;
 
-import br.com.salareserva.domain.ValueObject;
+import br.com.salareserva.domain.arq.ValueObject;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;

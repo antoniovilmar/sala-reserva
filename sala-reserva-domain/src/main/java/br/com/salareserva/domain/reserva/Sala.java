@@ -13,7 +13,7 @@ public class Sala {
         return id;
     }
 
-    public Reserva reservar(Periodo periodo, String email) {
-        return new Reserva(this, periodo, email);
+    public Reserva reservar(Periodo periodo, String email, Boolean temReservaNoPeriodoSala) {
+        return new Reserva(this, periodo, email, temReservaNoPeriodoSala);
     }
 }

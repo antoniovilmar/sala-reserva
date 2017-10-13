@@ -2,12 +2,10 @@ package br.com.salareserva.domain.arq;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.MappedSuperclass;
 import javax.validation.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@MappedSuperclass
 public abstract class BaseEntity implements Entity {
 
 	private static final long serialVersionUID = -7653894205644354419L;

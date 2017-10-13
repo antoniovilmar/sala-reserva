@@ -15,7 +15,6 @@ public class PeriodoInicialMaiorPeriodoFinalValidationImpl implements Constraint
 
   @Override
   public boolean isValid(Periodo periodo, ConstraintValidatorContext context) {
-
     return periodo.getDataInicio().isBefore(periodo.getDataFim());
 
   }
