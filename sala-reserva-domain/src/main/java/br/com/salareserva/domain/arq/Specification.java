@@ -6,4 +6,6 @@ public interface Specification<T> extends Serializable {
 
   Boolean isSatisfiedBy(T t);
 
+  String getBrokenRules();
+
 }

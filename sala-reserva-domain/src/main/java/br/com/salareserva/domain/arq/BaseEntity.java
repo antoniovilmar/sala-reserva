@@ -10,10 +10,6 @@ public abstract class BaseEntity implements Entity {
 
 	private static final long serialVersionUID = -7653894205644354419L;
 
-	protected BaseEntity() {
-
-	}
-
 
 	public final void isValid() {
 		Configuration<?> config = Validation.byDefaultProvider().configure();

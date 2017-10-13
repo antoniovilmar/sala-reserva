@@ -1,13 +1,14 @@
 package br.com.salareserva.domain.reserva;
 
 import br.com.salareserva.domain.arq.BaseEntity;
+import br.com.salareserva.domain.arq.Specification;
 import br.com.salareserva.domain.beanvalidation.PeriodoInicialMaiorPeriodoFinalValidation;
-import br.com.salareserva.domain.beanvalidation.TemReservaNoPeriodoSalaValidation;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
-public class Reserva extends BaseEntity {
+public class Reserva extends BaseEntity<Reserva> {
 
     private Sala sala;
     @Valid
@@ -15,16 +16,13 @@ public class Reserva extends BaseEntity {
     @PeriodoInicialMaiorPeriodoFinalValidation(message = "{periodoDataInicialMaiorPeriodoFinal.message}")
     private Periodo periodo;
 
-    @TemReservaNoPeriodoSalaValidation
-    private Boolean temReservaNaSalaPeriodo;
-
     private String email;
 
-    protected Reserva(Sala sala, Periodo periodo, String email, Boolean temReservaNoPeriodoSala) {
+    protected Reserva(Sala sala, Periodo periodo, String email, List<Specification<Reserva>> specifications) {
+        super(specifications);
         this.sala = sala;
         this.periodo = periodo;
         this.email = email;
-        this.temReservaNaSalaPeriodo = temReservaNoPeriodoSala;
         this.isValid();
     }
 
