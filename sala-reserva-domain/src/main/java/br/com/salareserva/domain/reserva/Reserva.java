@@ -1,41 +1,66 @@
 package br.com.salareserva.domain.reserva;
 
-import br.com.salareserva.domain.arq.BaseEntity;
-import br.com.salareserva.domain.arq.Specification;
+import br.com.salareserva.domain.base.AgregateRoot;
 import br.com.salareserva.domain.beanvalidation.PeriodoInicialMaiorPeriodoFinalValidation;
-
+import br.com.salareserva.domain.beanvalidation.TempoMinimoAntecedenciaValidation;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
-public class Reserva extends BaseEntity<Reserva> {
+@Entity
+@Table(name = "reserva")
+public class Reserva extends AgregateRoot<Reserva> implements Serializable {
 
-    private Sala sala;
-    @Valid
-    @NotNull
-    @PeriodoInicialMaiorPeriodoFinalValidation(message = "{periodoDataInicialMaiorPeriodoFinal.message}")
-    private Periodo periodo;
 
-    private String email;
+  private static final long serialVersionUID = -5697132317232573714L;
 
-    protected Reserva(Sala sala, Periodo periodo, String email, List<Specification<Reserva>> specifications) {
-        super(specifications);
-        this.sala = sala;
-        this.periodo = periodo;
-        this.email = email;
-        this.isValid();
-    }
+  @NotNull
+  @Embedded
+  private Sala sala;
 
-    public Sala getSala() {
-        return sala;
-    }
+  @Valid
+  @PeriodoInicialMaiorPeriodoFinalValidation(message = "{periodoDataInicialMaiorPeriodoFinal.message}")
+  @TempoMinimoAntecedenciaValidation(message = "{tempoMinimoAntecedencia.message}")
+  @Embedded
+  private Periodo periodo;
 
-    public Periodo getPeriodo() {
-        return periodo;
-    }
+  @NotNull
+  @Column(name = "email_responsavel")
+  private String email;
 
-    public String getEmail() {
-        return email;
-    }
+  @Transient
+  private List<Object> events;
 
+
+  /**
+   * @deprecated Construtor vazio existe por causa do hibernate - Não usar
+   */
+  protected Reserva() {
+  }
+
+  protected Reserva(Sala sala, Periodo periodo, String email) {
+    this.sala = sala;
+    this.periodo = periodo;
+    this.email = email;
+    this.isValid();
+  }
+
+
+  public Sala getSala() {
+    return sala;
+  }
+
+  public Periodo getPeriodo() {
+    return periodo;
+  }
+
+  public String getEmail() {
+    return email;
+  }
 }

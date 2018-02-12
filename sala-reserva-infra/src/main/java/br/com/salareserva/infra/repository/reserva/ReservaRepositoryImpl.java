@@ -1,13 +1,17 @@
-package br.com.salareserva.infra.repository;
+package br.com.salareserva.infra.repository.reserva;
 
-import br.com.salareserva.domain.repository.ReservaRepository;
+import br.com.salareserva.domain.repository.IReservaRepository;
 import br.com.salareserva.domain.reserva.Periodo;
 import br.com.salareserva.domain.reserva.Reserva;
 import br.com.salareserva.domain.reserva.Sala;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class ReservaRepositoryImpl implements ReservaRepository {
+import java.util.List;
+
+@Repository
+public class ReservaRepositoryImpl implements IReservaRepository {
 
     private ReservaRepositorySpringData reservaRepositorySpringData;
 
@@ -17,13 +21,24 @@ public class ReservaRepositoryImpl implements ReservaRepository {
     }
 
     @Override
-    public void add(Reserva reserva) {
-        this.reservaRepositorySpringData.save(reserva);
+    public Reserva salvar(Reserva reserva) {
+       return this.reservaRepositorySpringData.save(reserva);
     }
 
     @Override
-    public void remove(Long id) {
+    public List<Reserva> listar() {
+        return this.reservaRepositorySpringData.findAll();
+    }
+
+    @Override
+    public void excluir(Long id) {
         this.reservaRepositorySpringData.delete(id);
+    }
+
+
+    @Override
+    public Reserva consultarPorId(Long id) {
+        return this.reservaRepositorySpringData.getOne(id);
     }
 
     @Override
@@ -32,8 +47,8 @@ public class ReservaRepositoryImpl implements ReservaRepository {
     }
 
     interface ReservaRepositorySpringData extends JpaRepository<Reserva, Long> {
-
         Boolean existsBySalaAndPeriodo(Sala sala, Periodo periodo);
-
     }
+
+
 }

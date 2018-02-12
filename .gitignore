@@ -2,6 +2,7 @@
 **.classpath
 **.class
 **.jar
+!gradle-wrapper.jar
 **.war
 **.log
 **.orig
@@ -12,4 +13,5 @@
 .idea/
 bin/
 build/
+out/
 gradle.properties

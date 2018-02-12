@@ -1,10 +1,24 @@
-repositories {
-    mavenCentral()
-}
+apply plugin: "java"
+apply plugin: "jacoco"
+
 
 dependencies {
-    compile('javax.inject:javax.inject:1')
-    compile('org.hibernate:hibernate-validator:5.2.4.Final')
-    compile group: 'org.springframework', name: 'spring-context', version: '5.0.0.RELEASE'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    compile("org.hibernate:hibernate-validator:5.2.4.Final")
+    compile("org.apache.commons:commons-lang3:3.0")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testCompile("javax.el:el-api:2.2")
+
+}
+
+jacoco {
+    reportsDir = file("build/jacoco/test.exec")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("build/jacoco/jacocoHtml")
+    }
 }

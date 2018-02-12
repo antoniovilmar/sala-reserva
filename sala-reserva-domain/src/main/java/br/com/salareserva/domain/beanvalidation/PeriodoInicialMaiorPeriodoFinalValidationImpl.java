@@ -4,8 +4,8 @@ import br.com.salareserva.domain.reserva.Periodo;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static java.util.Objects.isNull;
 
 public class PeriodoInicialMaiorPeriodoFinalValidationImpl implements ConstraintValidator<PeriodoInicialMaiorPeriodoFinalValidation, Periodo> {
 
@@ -15,7 +15,10 @@ public class PeriodoInicialMaiorPeriodoFinalValidationImpl implements Constraint
 
   @Override
   public boolean isValid(Periodo periodo, ConstraintValidatorContext context) {
-    return periodo.getDataInicio().isBefore(periodo.getDataFim());
+    if(isNull(periodo) || periodo.naoTemPeriodo()){
+      return Boolean.TRUE;
+    }
+    return periodo.getDataHoraInicio().isBefore(periodo.getDataHoraFim());
 
   }
 

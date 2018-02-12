@@ -1,24 +1,67 @@
-subprojects {
-    group 'br.com.sala-reserva'
-    version '1.0-SNAPSHOT'
-    apply plugin: 'java'
-    apply plugin: 'idea'
-    apply plugin: 'eclipse'
+group 'br.com.sala-reserva'
+version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "ISO-8859-1"
+apply plugin: "org.sonarqube"
+apply plugin: "jacoco"
+
+buildscript {
+
+    ext {
+        springBootVersion = "1.5.8.RELEASE"
+        jsr310Version = "2.4.0"
+        mockitoVersion = "2.7.22"
+        jUnitVersion = "4.12"
     }
-    
-    repositories {
+
+    ext.repos = {
         mavenCentral()
     }
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 
+    repositories repos
 
     dependencies {
-        compile('org.apache.commons:commons-lang3:3.0')
-        testCompile('javax.el:javax.el-api:3.0.0')
-        testCompile('org.mockito:mockito-core:2.7.22')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+
     }
+}
+
+repositories repos
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+}
+
+allprojects {
+
+    repositories repos
+
+    project.ext.sonarAnalysisMode = project.hasProperty('sonarAnalysisMode') ? project.getProperty('sonarAnalysisMode') : 'publish'
+    println 'Sonnar ' + project.name + ' running with ' +  project.getProperty('sonarAnalysisMode')
+    
+    sonarqube {
+        properties {
+            property "sonar.projectName", project.name
+            property "sonar.projectKey", "org.sonarqube:br.com.salareserva.api"
+            property "sonar.jacoco.reportPath", "build/jacoco/test.exec"
+            property "sonar.groovy.jacoco.reportPath", "build/jacoco/test.exec"    
+            property "sonar.analysis.mode", project.ext.sonarAnalysisMode
+        }
+    }
+
+}
+
+dependencies {
+    testCompile("org.mockito:mockito-core:${mockitoVersion}")
+    testCompile("junit:junit:${jUnitVersion}")
 }

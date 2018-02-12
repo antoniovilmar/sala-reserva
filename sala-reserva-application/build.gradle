@@ -1,9 +1,22 @@
-repositories {
-    mavenCentral()
-}
+apply plugin: "java"
+apply plugin: "jacoco"
+
 
 dependencies {
     compile project(path:':sala-reserva-infra')
     compile project(path:':sala-reserva-domain')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jsr310Version}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+}
+
+jacoco {
+    reportsDir = file("build/jacoco/test.exec")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("build/jacoco/jacocoHtml")
+    }
 }
