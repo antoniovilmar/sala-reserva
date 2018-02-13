@@ -18,8 +18,8 @@ public class HttpErrorExceptionHandler {
 	@ResponseStatus(UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(DomainBusinessException.class)
 	@ResponseBody
-	public Erro error(DomainBusinessException e) {
-		return new Erro(e.getMessage());
+	public ApiError error(DomainBusinessException e) {
+		return new ApiError(e.getMessage());
 	}
 
 	@ResponseStatus(NOT_FOUND)

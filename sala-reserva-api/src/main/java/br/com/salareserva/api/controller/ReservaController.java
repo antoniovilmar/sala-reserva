@@ -4,6 +4,7 @@ import br.com.salareserva.application.reserva.IReservaConsultaService;
 import br.com.salareserva.application.reserva.IReservaExclusaoService;
 import br.com.salareserva.application.reserva.IReservaSalvaService;
 import br.com.salareserva.application.reserva.dto.ReservaDto;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ReservaController {
 
     @RequestMapping(value = "/reserva", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ReservaDto reservar(@RequestBody  ReservaDto reservaDto) {
+    public ReservaDto reservar(@RequestBody  @Valid ReservaDto reservaDto) {
         return this.reservaSalvaService.reservar(reservaDto);
     }
 
